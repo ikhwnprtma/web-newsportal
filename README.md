@@ -7,60 +7,348 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# DOKUMENTASI API NEWS PORTAL
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Dokumentasi ini menjelaskan tentang spesifikasi API pada layanan News Portal
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Base URL
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+http://localhost:8000/api/
 
-## Learning Laravel
+## Endpoints
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### GET /category
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Endpoint ini untuk mendapatkan daftar kategori berita
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### Response
 
-## Laravel Sponsors
+- Status: 200 (OK)
+- Body
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```json
+{
+    "status": true,
+    "message": "Berhasil",
+    "data": [
+        {
+            "id": 1,
+            "nama": "Olahraga",
+            "slug": "Olahraga"
+        }
+    ]
+}
+```
 
-### Premium Partners
+- status: 404 (Data Not Found)
+- Body
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```json
+{
+    "status": false,
+    "message": "Data tidak ditemukan"
+}
+```
 
-## Contributing
+### GET /category/{id}
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Endpoint ini untuk mendapatkan detail dari kategori
 
-## Code of Conduct
+#### Parameter (PATH)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- id: integer (id kategori)
 
-## Security Vulnerabilities
+#### Response
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Status: 200 (OK)
+- Body
 
-## License
+```json
+{
+    "status": true,
+    "message": "Berhasil",
+    "data": {
+        "id": 1,
+        "nama": "Olahraga",
+        "slug": "Olahraga"
+    }
+}
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- status: 404 (Data Not Found)
+- Body
+
+```json
+{
+    "status": false,
+    "message": "Data tidak ditemukan"
+}
+```
+
+### POST /category
+
+Endpoint ini untuk menambah kategori baru
+
+#### Request Body
+
+```json
+{
+    "nama": "Pendidikan"
+}
+```
+
+#### Response
+
+- Status: 200 (OK)
+- Body
+
+```json
+{
+    "status": true,
+    "message": "Berhasil",
+    "data": {
+        "id": 2,
+        "nama": "Pendidikan",
+        "slug": "Pendidikan"
+    }
+}
+```
+
+### PUT /category/{id}
+
+Endpoint ini untuk memperbarui kategori terpilih
+
+#### Parameter (PATH)
+
+- id: integer (id kategori)
+
+#### Request Body
+
+```json
+{
+    "nama": "Pendidikan"
+}
+```
+
+#### Response
+
+- Status: 200 (OK)
+- Body
+
+```json
+{
+    "status": true,
+    "message": "Berhasil",
+    "data": {
+        "id": 2,
+        "nama": "Pendidikan",
+        "slug": "Pendidikan"
+    }
+}
+```
+
+### DELETE /category/{id}
+
+Endpoint ini untuk menghapus kategori terpilih
+
+#### Parameter (PATH)
+
+- id: integer (id kategori)
+
+#### Response
+
+- Status: 200 (OK)
+- Body
+
+```json
+{
+    "status": true,
+    "message": "Berhasil",
+    "data": {
+        "id": 2,
+        "nama": "Pendidikan",
+        "slug": "Pendidikan"
+    }
+}
+```
+### GET /news
+
+Endpoint ini untuk mendapatkan daftar berita.
+
+#### Response
+
+- Status: 200(OK)
+- Body
+
+```json
+{
+    "success": true,
+    "message": "Berhasil",
+    "data": {
+        "id": 1,
+        "title": "Judul Berita",
+        "slug": "judul-berita",
+        "content": "Isi berita lengkap",
+        "image": "image.jpg",
+        "user_id": 1,
+        "category_id": 2,
+    }
+}
+```
+
+- status: 404 (Data Not Found)
+- Body
+
+```json
+{
+    "status": false,
+    "message": "Data tidak ditemukan"
+}
+```
+
+### GET /news/{id}
+
+Endpoint ini untuk mendapatkan detail dari news
+
+#### Parameter (PATH)
+
+- id: integer (id news)
+
+#### Response
+
+- Status: 200 (OK)
+- Body
+
+```json
+{
+    "success": true,
+    "message": "Berhasil",
+    "data": {
+        "id": 1,
+        "title": "Judul Berita",
+        "slug": "judul-berita",
+        "content": "Isi berita lengkap",
+        "image": "image.jpg",
+        "user_id": 1,
+        "category_id": 2,
+    }
+}
+```
+
+- status: 404 (Data Not Found)
+- Body
+
+```json
+{
+    "status": false,
+    "message": "Data tidak ditemukan"
+}
+```
+
+### POST /news
+
+Endpoint ini untuk menambah news baru
+
+#### Request Body
+
+```json
+{
+    "title": "Judul Berita",
+    "slug": "judul-berita",
+    "content": "Isi berita",
+    "image": "image.jpg",
+    "user_id": 1,
+    "category_id": 2
+}
+```
+
+#### Response
+
+- Status: 200 (OK)
+- Body
+
+```json
+{
+    "success": true,
+    "message": "Berhasil",
+    "data": {
+        "id": 1,
+        "title": "Judul Berita",
+        "slug": "judul-berita",
+        "content": "Isi berita",
+        "image": "image.jpg",
+        "user_id": 1,
+        "category_id": 2,
+    }
+}
+```
+
+### PUT /news/{id}
+
+Endpoint ini untuk memperbarui news yang terpilih
+
+#### Parameter (PATH)
+
+- id: integer (id news)
+
+#### Request Body
+
+```json
+{
+    "title": "Judul Berita Update",
+    "slug": "judul-berita-update",
+    "content": "Isi berita terbaru",
+    "image": "image-new.jpg",
+    "user_id": 1,
+    "category_id": 3
+}
+```
+
+#### Response
+
+- Status: 200 (OK)
+- Body
+
+```json
+{
+    "success": true,
+    "message": "Berhasil",
+    "data": {
+        "id": 1,
+        "title": "Judul Berita Update",
+        "slug": "judul-berita-update",
+        "content": "Isi berita terbaru",
+        "image": "image-new.jpg",
+        "user_id": 1,
+        "category_id": 3,
+    }
+}
+```
+
+### DELETE /news/{id}
+
+Endpoint ini untuk menghapus news yang terpilih
+
+#### Parameter (PATH)
+
+- id: integer (id news)
+
+#### Response
+
+- Status: 200 (OK)
+- Body
+
+```json
+{
+    "status": true,
+    "message": "Berhasil",
+    "data": {
+        "title": "Judul Berita",
+        "slug": "judul-berita",
+        "content": "Isi berita",
+        "image": "image.jpg",
+        "user_id": 1,
+        "category_id": 2
+    }
+}
+```
