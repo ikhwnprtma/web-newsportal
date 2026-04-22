@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\News;
+use App\Models\Category;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -19,7 +23,7 @@ class CategoryController extends Controller
     
     public function store(Request $request){
         $request->validate([
-            "name"=> "required|unique:tb_categories|max:255" 
+            "name"=> "required|unique:categories|max:255" 
         ]);
 
         Category::create($request->all());
@@ -33,7 +37,7 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category){
         $request->validate([
-            "name"=> "required|max:256|unique:tb_categories,name," . $category->id 
+            "name"=> "required|max:256|unique:categories,name," . $category->id 
         ]);
         
         $category->update($request->all());

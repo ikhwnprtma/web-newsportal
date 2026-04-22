@@ -37,25 +37,35 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                         </div>
                                     @endif
-                                    <form method="POST" , action={{ route('/login') }}>
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputEmail" type="email"
-                                                placeholder="name@example.com" />
-                                            <label for="inputEmail">Email address</label>
+                                    <form method="POST" action="{{ route('login') }}">
+                                        @csrf
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">
+                                                <i class="bi bi-envelope-fill me-1"></i> Email Address
+                                            </label>
+                                            <input type="email" name="email"
+                                                class="form-control @error('email') is-invalid @enderror"
+                                                value="{{ old('email') }}" placeholder="admin@example.com" required
+                                                autofocus>
+                                            @error('email')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputPassword" type="password"
-                                                placeholder="Password" />
-                                            <label for="inputPassword">Password</label>
+
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">
+                                                <i class="bi bi-key-fill me-1"></i> Password
+                                            </label>
+                                            <input type="password" name="password"
+                                                class="form-control @error('password') is-invalid @enderror"
+                                                placeholder="********" required>
+                                            @error('password')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input" id="inputRememberPassword" type="checkbox"
-                                                value="" />
-                                            <label class="form-check-label" for="inputRememberPassword">Remember
-                                                Password</label>
-                                        </div>
+
                                         <div class="d-grid">
-                                            <a class="btn btn-primary btn-block" href="{{route('admin') }}">Login</a>
+                                            <button type="submit" class="btn btn-primary btn-block">Login</button>
                                         </div>
                                     </form>
                                 </div>

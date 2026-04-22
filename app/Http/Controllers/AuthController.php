@@ -9,11 +9,13 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function showLoginForm(){
+    public function showLoginForm()
+    {
         return view('admin.auth.login');
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
@@ -21,13 +23,14 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
-            
-            return redirect()->route('admin.master')->with('success', 'Login berhasil!');
-        }
 
-        return back()->withErrors([
-            'email' => 'Email atau password, makanya diinget primata.',
-        ]);
+            return redirect()->route('admin')->with('success', 'Login berhasil!');
+        } 
+        else {
+            return back()->withErrors([
+                'email' => 'Email atau password salah, makanya diinget primata.',
+            ])->onlyInput('email');
+        }
     }
     public function showRegisterForm()
     {
@@ -49,6 +52,15 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('admin.master')->with('success', 'Registrasi berhasil!');
+        return redirect()->route('admin.dashboard')->with('success', 'Registrasi berhasil!');
+    }
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('success', 'Logout berhasil!');
     }
 }
