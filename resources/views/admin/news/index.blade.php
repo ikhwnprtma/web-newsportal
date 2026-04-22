@@ -1,4 +1,5 @@
 @extends('admin.master')
+
 @section('content')
 <div class="container-fluid">
     <div class="card">
@@ -31,9 +32,9 @@
                         <td>{{ $item->user->name ?? '-' }}</td>
                         <td>{{ $item->created_at->format('d/m/Y') }}</td>
                         <td>
-                            <a href="{{ route('admin.news.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{{ route('NewsEdit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
                             <button class="btn btn-danger btn-sm delete-btn" data-id="{{ $item->id }}">Hapus</button>
-                            <form id="delete-form-{{ $item->id }}" action="{{ route('admin.news.destroy', $item->id) }}" method="POST" style="display:none;">
+                            <form id="delete-form-{{ $item->id }}" action="{{ route('NewsDelete', $item->id) }}" method="POST" style="display:none;">
                                 @csrf
                                 @method('DELETE')
                             </form>
@@ -48,14 +49,33 @@
 </div>
 @endsection
 
+
 <script>
-    document.querySelectorAll(".delete-btn").forEach(button => {
-        button.addEventListener("click", function() {
-            const id = this.getAttribute("data-id");
-            if (confirm("Yakin ingin menghapus berita ini?")) {
-                document.getElementById(`delete-form-${id}`).submit();
+    document.addEventListener("DOMContentLoaded", function () {
+        
+        document.addEventListener("click", function (e) {
+            if (e.target && e.target.classList.contains("delete-btn")) {
+                const id = e.target.getAttribute("data-id");
+
+                Swal.fire({
+                    title: "Apakah Anda yakin?",
+                    text: "Data berita ini akan dihapus permanen!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Ya, hapus!",
+                    cancelButtonText: "Batal"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        {{ $item->id }}
+                        const form = document.getElementById(`delete-form-${id}`);
+                        if (form) {
+                            form.submit();
+                        }
+                    }
+                });
             }
         });
     });
 </script>
-

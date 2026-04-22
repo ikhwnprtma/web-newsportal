@@ -15,7 +15,7 @@ class NewsController extends Controller
     public function index()
     {
         $news = News::with(['category', 'user'])->latest()->paginate(10);
-        return view('news.index', compact('news'));
+        return view('welcome', compact('news'));
     }
 
     public function adminIndex()
@@ -50,7 +50,7 @@ class NewsController extends Controller
 
         News::create($data);
 
-        return redirect()->route('admin.news.index')->with('success', 'Berita berhasil ditambahkan.');
+        return redirect()->route('NewsAdmin')->with('success', 'Berita berhasil ditambahkan.');
     }
 
     public function adminEdit(News $news)
@@ -81,7 +81,7 @@ class NewsController extends Controller
 
         $news->update($data);
 
-        return redirect()->route('admin.news.index')->with('success', 'Berita berhasil diperbarui.');
+        return redirect()->route('NewsAdmin')->with('success', 'Berita berhasil diperbarui.');
     }
 
     public function adminDestroy(News $news)
@@ -91,7 +91,7 @@ class NewsController extends Controller
         }
         $news->delete();
 
-        return redirect()->route('admin.news.index')->with('success', 'Berita berhasil dihapus.');
+        return redirect()->route('NewsAdmin')->with('success', 'Berita berhasil dihapus.');
     }
 
     // Handle Upload Image dari Summernote
@@ -103,7 +103,7 @@ class NewsController extends Controller
             $path = $file->storeAs('news_images', $filename, 'public');
 
             return response()->json([
-                'url' => asset("admin/doksli/{$path}"),
+                'url' => asset("storage/{$path}"),
                 'filename' => $filename
             ]);
         }
@@ -111,24 +111,24 @@ class NewsController extends Controller
         return response()->json(['error' => 'Gagal mengupload gambar'], 400);
     }
     public function store(Request $request)
-{
-    $request->validate([
-        'title'       => 'required|string|max:255',
-        'content'     => 'required',
-        'image'       => 'nullable|string',
-        'category_id' => 'required|exists:categories,id',
-    ]);
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required',
+            'image' => 'nullable|string',
+            'category_id' => 'required|exists:categories,id',
+        ]);
 
-    News::create([
-        'title'       => $request->title,
-        'slug'        => Str::slug($request->title),
-        'content'     => $request->content,
-        'image'       => $request->image, // Ambil dari hidden input
-        'user_id'     => auth()->id(),
-        'category_id' => $request->category_id,
-    ]);
+        News::create([
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'content' => $request->content,
+            'image' => $request->image, 
+            'user_id' => auth()->id(),
+            'category_id' => $request->category_id,
+        ]);
 
-    return redirect()->route('news.index')->with('success', 'Berita berhasil ditambahkan.');
-}
+        return redirect()->route('NewsAdmin')->with('success', 'Berita berhasil ditambahkan.');
+    }
 
 }

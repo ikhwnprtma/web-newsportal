@@ -38,10 +38,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/news', [newsController::class, 'adminIndex'])->name('NewsAdmin');
     Route::get('/news/create', [newsController::class, 'adminCreate'])->name('NewsCreate');
-    Route::post('/news', [newsController::class, 'adminStore'])->name('NewsStore');
-    Route::get('/news/{news}/edit', [newsController::class, 'adminEdit'])->name('admin.news.edit');
-    Route::put('/news/{news}', [newsController::class, 'adminUpdate'])->name('admin.news.update');
-    Route::delete('/news/{news}', [newsController::class, 'adminDestroy'])->name('admin.news.destroy');
+    Route::post('/news', [newsController::class, 'store'])->name('NewsStore');
+    Route::get('/news/{news}/edit', [newsController::class, 'adminEdit'])->name('NewsEdit');
+    Route::put('/news/{news}', [newsController::class, 'adminUpdate'])->name('NewsUpdate');
+    Route::delete('/news/{news}', [newsController::class, 'adminDestroy'])->name('NewsDelete');
     Route::post('/news/upload', [newsController::class, 'uploadImage'])->name('NewsUploadImage');
 });
 
